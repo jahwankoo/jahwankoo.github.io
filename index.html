@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jahwan Koo — Professor, Founder, Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Geist:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elev: #131313;
+    --border: #232323;
+    --border-soft: #1a1a1a;
+    --text: #fafafa;
+    --text-dim: #a8a8a8;
+    --text-muted: #6b6b6b;
+    --accent: #fbbf24;
+    --accent-warm: #f97316;
+    --serif: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+    --sans: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 400;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Subtle grain texture */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Warm vignette */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(251, 191, 36, 0.08) 0%, transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(249, 115, 22, 0.05) 0%, transparent 45%);
+  }
+
+  .layout { position: relative; z-index: 2; }
+
+  /* ── NAV ───────────────────────────────────────── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 22px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    background: rgba(10, 10, 10, 0.65);
+    border-bottom: 1px solid var(--border-soft);
+    z-index: 100;
+  }
+  nav .mark {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  nav .mark span { color: var(--accent); }
+  nav ul { list-style: none; display: flex; gap: 36px; }
+  nav a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    transition: color 0.2s ease;
+    position: relative;
+  }
+  nav a:hover { color: var(--text); }
+  nav a::before {
+    content: attr(data-num);
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-right: 8px;
+  }
+
+  /* ── HERO ──────────────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    padding: 180px 48px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .hero .meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display: flex;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .hero .meta span::before {
+    content: "→ ";
+    color: var(--accent);
+    margin-right: 4px;
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    margin-bottom: 28px;
+  }
+  .hero h1 .accent {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .hero h1 .strike {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--text-dim);
+  }
+
+  .hero .tag {
+    font-size: 17px;
+    color: var(--text-dim);
+    max-width: 460px;
+    line-height: 1.6;
+    margin-bottom: 36px;
+  }
+
+  .hero .cta-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 22px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 999px;
+    transition: all 0.25s ease;
+    border: 1px solid transparent;
+  }
+  .btn.primary {
+    background: var(--accent);
+    color: #0a0a0a;
+  }
+  .btn.primary:hover {
+    background: #fff;
+    transform: translateY(-2px);
+  }
+  .btn.ghost {
+    color: var(--text);
+    border-color: var(--border);
+  }
+  .btn.ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .hero .visual {
+    position: relative;
+    height: 460px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .hero .visual .card-stack {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  .hero .visual .card-stack .card {
+    position: absolute;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px;
+    width: 240px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .hero .visual .c1 {
+    top: 10%; left: 6%;
+    transform: rotate(-5deg);
+  }
+  .hero .visual .c2 {
+    top: 28%; right: 4%;
+    transform: rotate(4deg);
+  }
+  .hero .visual .c3 {
+    bottom: 12%; left: 24%;
+    transform: rotate(-2deg);
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.12), rgba(249, 115, 22, 0.06));
+    border-color: rgba(251, 191, 36, 0.3);
+  }
+  .hero .visual .card .row {
+    display: flex; justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .hero .visual .card .row:last-child { border-bottom: none; }
+  .hero .visual .card .label { color: var(--text-muted); }
+  .hero .visual .card .val { color: var(--text); }
+  .hero .visual .card .val.green { color: #4ade80; }
+  .hero .visual .card .val.red { color: #f87171; }
+  .hero .visual .card .title {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  /* ── SECTION SCAFFOLD ──────────────────────────── */
+  section {
+    padding: 120px 48px;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 56px;
+    border-top: 1px solid var(--border);
+    padding-top: 32px;
+  }
+  .section-head .num {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+  .section-head h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(34px, 4.5vw, 56px);
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+  .section-head h2 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* ── ABOUT ─────────────────────────────────────── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+  }
+  .about-grid .quote {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-style: italic;
+    line-height: 1.35;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .about-grid .quote::before {
+    content: "“";
+    font-size: 80px;
+    color: var(--accent);
+    line-height: 0.1;
+    display: block;
+    margin-bottom: 30px;
+    font-style: normal;
+  }
+  .about-grid .body p {
+    font-size: 17px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+  .about-grid .body p strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+  .about-grid .body .facts {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    padding-top: 32px;
+    border-top: 1px dashed var(--border);
+  }
+  .about-grid .body .facts .fact {
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+  .about-grid .body .facts .fact .k {
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+  .about-grid .body .facts .fact .v {
+    color: var(--text);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 19px;
+    font-weight: 500;
+  }
+
+  /* ── PROJECTS ──────────────────────────────────── */
+  .projects {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .project {
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr 120px;
+    gap: 32px;
+    padding: 36px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+    transition: padding 0.3s ease;
+    cursor: pointer;
+  }
+  .project:hover {
+    padding: 36px 16px;
+  }
+  .project:hover .p-title { color: var(--accent); }
+  .project:hover .p-arrow { transform: translateX(6px); color: var(--accent); }
+
+  .project .p-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    padding-top: 8px;
+  }
+  .project .p-title {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    transition: color 0.25s ease;
+  }
+  .project .p-title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--text-dim);
+    font-size: 18px;
+    display: block;
+    margin-top: 6px;
+  }
+  .project .p-desc {
+    color: var(--text-dim);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .project .p-desc .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+  }
+  .project .p-desc .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    letter-spacing: 0.05em;
+  }
+  .project .p-arrow {
+    text-align: right;
+    font-size: 24px;
+    color: var(--text-muted);
+    transition: all 0.25s ease;
+    padding-top: 4px;
+  }
+
+  /* ── SKILLS ────────────────────────────────────── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .skill-cluster {
+    background: var(--bg);
+    padding: 32px 28px;
+    min-height: 220px;
+  }
+  .skill-cluster .head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .skill-cluster .head .icon {
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 11px;
+  }
+  .skill-cluster .head h3 {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 18px;
+    font-weight: 500;
+  }
+  .skill-cluster ul {
+    list-style: none;
+  }
+  .skill-cluster ul li {
+    font-size: 14px;
+    color: var(--text-dim);
+    padding: 5px 0;
+    transition: color 0.2s ease, padding-left 0.25s ease;
+  }
+  .skill-cluster ul li:hover {
+    color: var(--text);
+    padding-left: 8px;
+  }
+
+  /* ── CONTACT ───────────────────────────────────── */
+  .contact-wrap {
+    text-align: center;
+    padding: 60px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .contact-wrap .pre {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .contact-wrap h2 {
+    font-family: var(--serif);
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    margin-bottom: 28px;
+  }
+  .contact-wrap h2 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .contact-wrap .email {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 28px;
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--text-muted);
+    padding-bottom: 4px;
+    transition: all 0.25s ease;
+  }
+  .contact-wrap .email:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .contact-wrap .links {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+  .contact-wrap .links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: color 0.2s ease;
+  }
+  .contact-wrap .links a:hover { color: var(--accent); }
+
+  /* ── FOOTER ────────────────────────────────────── */
+  footer {
+    padding: 32px 48px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+  footer .lemon {
+    color: var(--accent);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14px;
+  }
+
+  /* ── ANIMATIONS ────────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes floaty {
+    0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+    50% { transform: translateY(-8px) rotate(var(--r, 0deg)); }
+  }
+  .hero h1, .hero .tag, .hero .cta-row, .hero .meta {
+    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+  .hero .meta { animation-delay: 0.1s; }
+  .hero h1 { animation-delay: 0.2s; }
+  .hero .tag { animation-delay: 0.4s; }
+  .hero .cta-row { animation-delay: 0.55s; }
+  .hero .visual .c1 { --r: -5deg; animation: floaty 6s ease-in-out infinite; }
+  .hero .visual .c2 { --r: 4deg; animation: floaty 7s ease-in-out infinite -2s; }
+  .hero .visual .c3 { --r: -2deg; animation: floaty 5s ease-in-out infinite -1s; }
+
+  /* ── RESPONSIVE ────────────────────────────────── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    nav ul { gap: 20px; }
+    nav a::before { display: none; }
+
+    .hero {
+      grid-template-columns: 1fr;
+      padding: 140px 24px 60px;
+      gap: 50px;
+    }
+    .hero .visual { height: 360px; }
+
+    section { padding: 80px 24px; }
+
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .about-grid .quote { font-size: 22px; }
+
+    .project {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .project .p-arrow { display: none; }
+    .project .p-num { padding-top: 0; }
+
+    .skills-grid { grid-template-columns: repeat(2, 1fr); }
+
+    footer {
+      padding: 24px;
+      flex-direction: column;
+      gap: 12px;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 540px) {
+    nav ul li:nth-child(3) { display: none; }
+    .skills-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <nav>
+    <div class="mark">jahwan<span>.</span> koo</div>
+    <ul>
+      <li><a href="#about" data-num="01">About</a></li>
+      <li><a href="#work" data-num="02">Work</a></li>
+      <li><a href="#skills" data-num="03">Skills</a></li>
+      <li><a href="#contact" data-num="04">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO ──────────────────────────────────────── -->
+  <header class="hero">
+    <div class="left">
+      <div class="meta">
+        <span>Seoul, KR</span>
+        <span>2026</span>
+      </div>
+      <h1>
+        Building things<br>
+        <span class="strike">at the edge of</span><br>
+        <span class="accent">research &amp; product.</span>
+      </h1>
+      <p class="tag">
+        Visiting Professor at SKKU's College of Software and founder of 2point5p — a small studio shipping AI products in trading, talent mobility, and academic publishing.
+      </p>
+      <div class="cta-row">
+        <a href="#work" class="btn primary">See the work →</a>
+        <a href="#contact" class="btn ghost">Get in touch</a>
+      </div>
+    </div>
+
+    <div class="visual">
+      <div class="card-stack">
+        <div class="card c1">
+          <div class="title">TradeSaga · Helix</div>
+          <div class="row"><span class="label">7d PnL</span><span class="val green">+417,234</span></div>
+          <div class="row"><span class="label">Win rate</span><span class="val">68.4%</span></div>
+          <div class="row"><span class="label">Bot</span><span class="val">helix_v3</span></div>
+        </div>
+        <div class="card c2">
+          <div class="title">SettleOn · A-6 wizard</div>
+          <div class="row"><span class="label">Steps</span><span class="val">7 / 7</span></div>
+          <div class="row"><span class="label">Tenants</span><span class="val green">live</span></div>
+          <div class="row"><span class="label">Build</span><span class="val">S65</span></div>
+        </div>
+        <div class="card c3">
+          <div class="title">SACE framework</div>
+          <div class="row"><span class="label">Venues</span><span class="val">NeurIPS · ICML · ICLR</span></div>
+          <div class="row"><span class="label">Status</span><span class="val">drafting</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ABOUT ──────────────────────────────────────── -->
+  <section id="about">
+    <div class="section-head">
+      <span class="num">01 / About</span>
+      <h2>Half academic, <em>half operator</em>.</h2>
+    </div>
+    <div class="about-grid">
+      <div class="quote">
+        I'm most at home where messy research questions collide with the discipline of shipping software people actually use.
+      </div>
+      <div class="body">
+        <p>
+          I teach <strong>Arts and Big Data</strong> and <strong>Data Mining</strong> in SKKU's College of Software, and I run <strong>2point5p, Inc.</strong> — a Delaware C-corp building AI-native products across finance, talent mobility, and academic publishing.
+        </p>
+        <p>
+          My day moves between lecture notes and pull requests: a morning class on visual analytics, an afternoon reviewing for NeurIPS, an evening debugging a trading engine. I care about how AI changes the texture of expert work — the parts we still want humans inside of, and the parts we can let go.
+        </p>
+        <div class="facts">
+          <div class="fact">
+            <div class="k">Role</div>
+            <div class="v">Professor / Founder</div>
+          </div>
+          <div class="fact">
+            <div class="k">Based in</div>
+            <div class="v">Seoul, Korea</div>
+          </div>
+          <div class="fact">
+            <div class="k">Reviewing for</div>
+            <div class="v">NeurIPS · ICML · ICLR</div>
+          </div>
+          <div class="fact">
+            <div class="k">Office plant</div>
+            <div class="v">귤락이 (lemon tree)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS ───────────────────────────────────── -->
+  <section id="work">
+    <div class="section-head">
+      <span class="num">02 / Selected work</span>
+      <h2>What I've been <em>building</em>.</h2>
+    </div>
+
+    <div class="projects">
+
+      <div class="project">
+        <div class="p-num">01</div>
+        <div class="p-title">
+          TradeSaga
+          <em>Algorithmic crypto trading, gamified.</em>
+        </div>
+        <div class="p-desc">
+          Six MBTI-themed bots (Titan, Equinox, Phoenix, Helix, Zenith, Nexus) running in a live arena, plus a BYO-server tier for subscribers. Production stack on AWS — CloudFormation AMIs, Stripe billing, Cython-protected engines, and a public broadcast dashboard streaming via OBS.
+          <div class="tags">
+            <span class="tag">FastAPI</span>
+            <span class="tag">PostgreSQL</span>
+            <span class="tag">AWS · CFN</span>
+            <span class="tag">Stripe</span>
+            <span class="tag">Cython</span>
+          </div>
+        </div>
+        <div class="p-arrow">→</div>
+      </div>
+
+      <div class="project">
+        <div class="p-num">02</div>
+        <div class="p-title">
+          SettleOn (WorkOn)
+          <em>Multi-tenant platform for foreign workers &amp; students.</em>
+        </div>
+        <div class="p-desc">
+          Visa wizards, telecom onboarding (LG U+ integration with NB Korea), and a multi-agent backend that turns complex Korean bureaucracy into a 7-step flow. I'm CTO and the platform's been transferred to WorkOn Inc.; I keep the lights on through 2026.
+          <div class="tags">
+            <span class="tag">Next.js</span>
+            <span class="tag">FastAPI</span>
+            <span class="tag">Docker Compose</span>
+            <span class="tag">Multi-agent</span>
+          </div>
+        </div>
+        <div class="p-arrow">→</div>
+      </div>
+
+      <div class="project">
+        <div class="p-num">03</div>
+        <div class="p-title">
+          REAL
+          <em>AI pre-review for academic papers.</em>
+        </div>
+        <div class="p-desc">
+          A SaaS that gives authors a structured, venue-aware critique of their manuscript before they submit. Subscription tiers, referral program, AI writing and review features — designed around how reviewers actually read at top ML venues.
+          <div class="tags">
+            <span class="tag">React</span>
+            <span class="tag">LLM orchestration</span>
+            <span class="tag">SaaS</span>
+          </div>
+        </div>
+        <div class="p-arrow">→</div>
+      </div>
+
+      <div class="project">
+        <div class="p-num">04</div>
+        <div class="p-title">
+          SACE
+          <em>A framework for AI peer-review quality.</em>
+        </div>
+        <div class="p-desc">
+          Research toward a principled way to measure whether AI-assisted reviews are actually any good. Specificity, Accuracy, Constructiveness, Engagement — operationalised against real reviewer behaviour at major ML conferences.
+          <div class="tags">
+            <span class="tag">Research</span>
+            <span class="tag">Evaluation</span>
+            <span class="tag">LLM</span>
+          </div>
+        </div>
+        <div class="p-arrow">→</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SKILLS ────────────────────────────────────── -->
+  <section id="skills">
+    <div class="section-head">
+      <span class="num">03 / Toolkit</span>
+      <h2>The stack I <em>actually use</em>.</h2>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skill-cluster">
+        <div class="head">
+          <span class="icon">▲</span>
+          <h3>Cloud &amp; infra</h3>
+        </div>
+        <ul>
+          <li>AWS — EC2, S3, SES</li>
+          <li>CloudFormation</li>
+          <li>Docker &amp; Compose</li>
+          <li>NGINX, systemd</li>
+          <li>Multi-server pipelines</li>
+        </ul>
+      </div>
+
+      <div class="skill-cluster">
+        <div class="head">
+          <span class="icon">◆</span>
+          <h3>Backend</h3>
+        </div>
+        <ul>
+          <li>Python · FastAPI</li>
+          <li>PostgreSQL</li>
+          <li>Cython (source protection)</li>
+          <li>Stripe integration</li>
+          <li>OAuth, JWT, tenants</li>
+        </ul>
+      </div>
+
+      <div class="skill-cluster">
+        <div class="head">
+          <span class="icon">●</span>
+          <h3>Frontend</h3>
+        </div>
+        <ul>
+          <li>React, Next.js</li>
+          <li>TypeScript</li>
+          <li>Tailwind, CSS-in-JS</li>
+          <li>Data viz (D3, Recharts)</li>
+          <li>Responsive systems</li>
+        </ul>
+      </div>
+
+      <div class="skill-cluster">
+        <div class="head">
+          <span class="icon">✦</span>
+          <h3>Research</h3>
+        </div>
+        <ul>
+          <li>LLM evaluation</li>
+          <li>AI for science</li>
+          <li>Peer-review systems</li>
+          <li>Data mining, viz</li>
+          <li>Academic writing</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT ──────────────────────────────────── -->
+  <section id="contact">
+    <div class="contact-wrap">
+      <div class="pre">04 / Get in touch</div>
+      <h2>Let's build <em>something</em>.</h2>
+      <a href="mailto:jhkoo@2point5p.com" class="email">jhkoo@2point5p.com</a>
+      <div class="links">
+        <a href="#">SKKU profile</a>
+        <a href="#">2point5p</a>
+        <a href="#">GitHub</a>
+        <a href="#">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>© 2026 Jahwan Koo. Built in Seoul.</div>
+    <div class="lemon">— with 귤락이 watching.</div>
+  </footer>
+
+</div>
+</body>
+</html>
